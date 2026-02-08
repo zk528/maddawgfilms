@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAD DAWG | OPERATIVES</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* [CORE ENGINE] */
+        :root { --color-void: #050505; --color-blood: #8a0303; --color-silver: #C0C0C0; --font-head: 'Oswald', sans-serif; --font-tech: 'Share Tech Mono', monospace; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none; }
+        body { background: var(--color-void); color: #fff; font-family: var(--font-tech); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* SIDEBAR */
+        .dashboard-sidebar { width: 280px; background: #000; border-right: 1px solid #333; padding: 40px 0; display: flex; flex-direction: column; }
+        .brand-logo { color: var(--color-silver); border: 2px solid var(--color-silver); padding: 10px; margin: 0 auto 40px; font-family: var(--font-head); font-size: 1.5rem; }
+        .nav-link { display: block; padding: 15px 30px; color: #666; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: #fff; border-left: 4px solid var(--color-blood); padding-left: 36px; background: rgba(138,3,3,0.1); }
+
+        /* CURSOR */
+        #cursor-bat { position: fixed; pointer-events: none; z-index: 9999; width: 64px; height: 64px; mix-blend-mode: exclusion; }
+
+        /* PAGE SPECIFIC */
+        .team-container {
+            flex: 1; padding: 50px; overflow-y: auto;
+            background-image: linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .header-box { border-left: 5px solid var(--color-blood); padding-left: 20px; margin-bottom: 50px; }
+        .page-title { font-family: var(--font-head); font-size: 3rem; color: var(--color-silver); }
+        .subtitle { color: var(--color-blood); letter-spacing: 2px; }
+
+        /* TEAM GRID */
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .operative-card {
+            background: #000; border: 1px solid #333;
+            position: relative; overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .operative-card:hover { border-color: var(--color-silver); }
+
+        .op-img-box {
+            height: 250px; width: 100%;
+            background: #080808;
+            display: flex; align-items: center; justify-content: center;
+            border-bottom: 1px solid #333;
+            position: relative;
+        }
+
+        .op-img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        .redacted-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: var(--color-blood);
+        }
+
+        .op-info { padding: 20px; }
+        .op-name { font-size: 1.5rem; color: #fff; margin-bottom: 5px; }
+        .op-role { color: #666; font-size: 0.9rem; text-transform: uppercase; }
+
+        /* TERMINAL SECTION */
+        .terminal-section {
+            margin-top: 80px; border-top: 1px solid #333; padding-top: 40px;
+        }
+        
+        .terminal-window {
+            background: #000; border: 1px solid #333; padding: 20px;
+            font-family: 'Share Tech Mono', monospace; color: #0f0;
+            height: 200px; overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <svg id="cursor-bat" viewBox="0 0 100 100" fill="none"><rect x="45" y="70" width="10" height="25" fill="#5c4033"/><path d="M40 70 L60 70 L60 20 C60 10 40 10 40 20 Z" fill="#C0C0C0"/><path d="M42 25 Q45 30 48 22 Q50 35 55 28" stroke="#8a0303" stroke-width="3"/></svg>
+
+    <aside class="dashboard-sidebar">
+        <div class="brand-logo">MAD DAWG</div>
+        <nav>
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="about-founder.html" class="nav-link">The Founder</a>
+            <a href="about-team.html" class="nav-link active">The Team</a>
+        </nav>
+    </aside>
+
+    <main class="team-container">
+        <div class="header-box">
+            <h1 class="page-title">OPERATIVES</h1>
+            <div class="subtitle">PERSONNEL MANIFEST // CLEARANCE LEVEL 9 REQUIRED</div>
+        </div>
+
+        <div class="team-grid">
+            
+            <div class="operative-card">
+                <div class="op-img-box">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80" style="filter:grayscale(100%)">
+                </div>
+                <div class="op-info">
+                    <div class="op-name">ZARRAR KHAN</div>
+                    <div class="op-role">COMMANDER / VISIONARY</div>
+                </div>
+            </div>
+
+            <div class="operative-card">
+                <div class="op-img-box">
+                    <div class="redacted-overlay">
+                        <span style="font-size:3rem;">⚠</span>
+                        <span>ACCESS DENIED</span>
+                    </div>
+                </div>
+                <div class="op-info">
+                    <div class="op-name" style="background:white; color:transparent; width:fit-content;">REDACTED NAME</div>
+                    <div class="op-role">CINEMATOGRAPHY</div>
+                </div>
+            </div>
+
+            <div class="operative-card">
+                <div class="op-img-box">
+                    <div class="redacted-overlay">
+                        <span style="font-size:3rem;">⚠</span>
+                        <span>ACCESS DENIED</span>
+                    </div>
+                </div>
+                <div class="op-info">
+                    <div class="op-name" style="background:white; color:transparent; width:fit-content;">REDACTED NAME</div>
+                    <div class="op-role">AUDIO ENGINEERING</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="terminal-section">
+            <h3>RECRUITMENT TERMINAL</h3>
+            <p style="color:#666; margin-bottom:10px;">Think you have what it takes? Enter credentials.</p>
+            <div class="terminal-window" id="terminal">
+                <div>> INITIATING HANDSHAKE...</div>
+                <div>> CHECKING NASA DATABASE...</div>
+                <div>> WARNING: APPLICANT IQ TOO LOW.</div>
+                <div id="cursor-blink">> _</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // CURSOR
+        const cursor = document.getElementById('cursor-bat');
+        let mx=0, my=0, cx=0, cy=0;
+        document.addEventListener('mousemove', e=>{mx=e.clientX; my=e.clientY;});
+        function loop(){
+            cx += (mx-cx)*0.2; cy += (my-cy)*0.2;
+            cursor.style.left=cx+'px'; cursor.style.top=cy+'px';
+            cursor.style.transform=`translate(-50%,-50%) rotate(${-45 + (mx-cx)}deg)`;
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+        // TERMINAL TYPING EFFECT
+        const terminal = document.getElementById('terminal');
+        const lines = [
+            "> SCANNING BIOMETRICS...",
+            "> ERROR: SUBJECT IS NOT A MAD DAWG.",
+            "> RECRUITMENT CLOSED.",
+            "> GO AWAY."
+        ];
+        let i = 0;
+        
+        setInterval(() => {
+            if (i < lines.length) {
+                const div = document.createElement('div');
+                div.innerText = lines[i];
+                terminal.insertBefore(div, document.getElementById('cursor-blink'));
+                i++;
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAD DAWG | THE FOUNDER</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Oswald:wght@200;400;700&family=Playfair+Display:ital,wght@0,400;1,900&display=swap" rel="stylesheet">
+
+    <style>
+        /* [CORE ENGINE CSS - SAME AS ABOVE FOR CONSISTENCY] */
+        :root {
+            --color-void: #050505; --color-blood: #8a0303; --color-silver: #C0C0C0;
+            --font-head: 'Oswald', sans-serif; --font-body: 'Playfair Display', serif;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none; }
+        body { background: var(--color-void); color: #fff; font-family: var(--font-body); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* SIDEBAR (Compact) */
+        .dashboard-sidebar { width: 280px; background: #000; border-right: 1px solid #333; padding: 40px 0; display: flex; flex-direction: column; z-index: 99; }
+        .brand-logo { color: var(--color-silver); border: 2px solid var(--color-silver); padding: 10px; margin: 0 auto 40px; font-family: var(--font-head); font-size: 1.5rem; }
+        .nav-link { display: block; padding: 15px 30px; color: #666; text-decoration: none; font-family: var(--font-head); text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: #fff; border-left: 4px solid var(--color-blood); padding-left: 36px; background: rgba(138,3,3,0.1); }
+
+        /* CURSOR */
+        #cursor-bat { position: fixed; pointer-events: none; z-index: 9999; width: 64px; height: 64px; mix-blend-mode: exclusion; }
+        
+        /* PAGE SPECIFIC */
+        .founder-layout {
+            flex: 1; display: grid; grid-template-columns: 1.2fr 0.8fr;
+            overflow-y: auto; background: linear-gradient(to right, #080808, #000);
+        }
+
+        .bio-section {
+            padding: 60px;
+            border-right: 1px solid #222;
+        }
+
+        .founder-header {
+            border-bottom: 2px solid var(--color-blood);
+            margin-bottom: 40px; padding-bottom: 20px;
+        }
+
+        .founder-name {
+            font-family: 'Cinzel', serif; font-size: 4rem; color: var(--color-silver);
+            text-transform: uppercase; line-height: 0.9;
+        }
+
+        .founder-title {
+            font-family: var(--font-head); color: var(--color-blood);
+            font-size: 1.2rem; letter-spacing: 5px; margin-top: 10px;
+        }
+
+        .bio-text {
+            font-size: 1.1rem; line-height: 1.8; color: #bbb;
+            max-width: 800px;
+        }
+        
+        .bio-text p { margin-bottom: 25px; }
+        .bio-text strong { color: #fff; border-bottom: 1px dotted var(--color-blood); }
+
+        /* RIGHT PANEL: STATS & LOGS */
+        .stats-section {
+            padding: 40px; background: #030303;
+            display: flex; flex-direction: column; gap: 40px;
+        }
+
+        .stat-box { border: 1px solid #333; padding: 20px; background: #0a0a0a; }
+        .stat-header { font-family: var(--font-head); color: var(--color-silver); margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+
+        .nasa-log {
+            font-family: monospace; font-size: 0.85rem; color: #666;
+            height: 200px; overflow-y: auto;
+        }
+        
+        .log-entry { margin-bottom: 8px; border-left: 2px solid var(--color-blood); padding-left: 10px; }
+        .log-date { color: var(--color-blood); font-weight: bold; }
+
+        /* CANVAS CONTAINER */
+        #egoGraph { width: 100%; height: 250px; background: #000; border: 1px solid #333; }
+
+    </style>
+</head>
+<body>
+    <svg id="cursor-bat" viewBox="0 0 100 100" fill="none"><rect x="45" y="70" width="10" height="25" fill="#5c4033"/><path d="M40 70 L60 70 L60 20 C60 10 40 10 40 20 Z" fill="#C0C0C0"/><path d="M42 25 Q45 30 48 22 Q50 35 55 28" stroke="#8a0303" stroke-width="3"/></svg>
+
+    <aside class="dashboard-sidebar">
+        <div class="brand-logo">MAD DAWG</div>
+        <nav>
+            <a href="index.html" class="nav-link">Dashboard</a>
+            <a href="projects.html" class="nav-link">Projects</a>
+            <a href="about-founder.html" class="nav-link active">The Founder</a>
+            <a href="about-team.html" class="nav-link">The Team</a>
+        </nav>
+    </aside>
+
+    <main class="founder-layout">
+        <section class="bio-section">
+            <header class="founder-header">
+                <h1 class="founder-name">Zarrar Khan</h1>
+                <div class="founder-title">PhD (Age 15) | Visionary | Survivor</div>
+            </header>
+
+            <article class="bio-text">
+                <p>Born eight months premature in the unforgiving expanse of the <strong>Afghan desert</strong>, Zarrar Khan did not wait for the world to welcome him; he demanded its submission from the first breath. Left to his own devices in a landscape that would break lesser men, he spent his infancy mastering the primal laws of the hunt, surviving on raw instinct and the game he tracked alone.</p>
+                
+                <p>By age three, having already conquered the desert, he relocated to Karachi, bringing with him a tactical intellect that would see him complete his <strong>Bachelors, Masters, and PhD by the age of fifteen</strong>—a feat of cognitive dominance that remains biologically unexplained by modern science.</p>
+                
+                <p>The intellectual elite soon came knocking. <strong>NASA operatives</strong>, desperate to utilize his neuro-superiority for deep-space navigation, offered him the stars on a silver platter. Zarrar, however, found their vision narrow. He famously rejected their multiple multi-billion dollar offers, noting that "calculating the trajectory of a rocket is child’s play compared to calculating the trajectory of the human soul on celluloid."</p>
+            </article>
+            
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1000&q=80" style="width:100%; height:300px; object-fit:cover; margin-top:40px; filter:grayscale(100%); border:1px solid var(--color-silver);">
+        </section>
+
+        <section class="stats-section">
+            
+            <div class="stat-box">
+                <h3 class="stat-header">PSYCHOMETRIC ANALYSIS</h3>
+                <canvas id="egoGraph"></canvas>
+            </div>
+
+            <div class="stat-box">
+                <h3 class="stat-header">OFFICIAL REJECTION LOG (NASA)</h3>
+                <div class="nasa-log">
+                    <div class="log-entry">
+                        <span class="log-date">2021-04-12</span><br>
+                        RE: Director of Mars Operations. <br>STATUS: DECLINED (Too Easy)
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-date">2023-09-01</span><br>
+                        RE: Chief Astrophysicist. <br>STATUS: DECLINED (Busy with Film)
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-date">2025-01-15</span><br>
+                        RE: Galactic Emperor. <br>STATUS: PENDING (Considering)
+                    </div>
+                    <div class="log-entry" style="color:var(--color-blood)">
+                        <span class="log-date">TODAY</span><br>
+                        Incoming Transmission blocked by Mad Dawg Firewall.
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // --- CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor-bat');
+        let mx=0, my=0, cx=0, cy=0;
+        document.addEventListener('mousemove', e=>{mx=e.clientX; my=e.clientY;});
+        function loop(){
+            cx += (mx-cx)*0.2; cy += (my-cy)*0.2;
+            cursor.style.left=cx+'px'; cursor.style.top=cy+'px';
+            cursor.style.transform=`translate(-50%,-50%) rotate(${-45 + (mx-cx)}deg)`;
+            requestAnimationFrame(loop);
+        }
+        loop();
+
+        // --- CHART JS (Custom Drawing) ---
+        const canvas = document.getElementById('egoGraph');
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+
+        function drawChart() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            
+            // Bars
+            const stats = [
+                {label: "IQ", val: 0.95},
+                {label: "ARTISTRY", val: 1.0},
+                {label: "HUMILITY", val: 0.05},
+                {label: "DANGER", val: 0.85}
+            ];
+
+            const barWidth = 40;
+            const gap = 20;
+            let x = 20;
+
+            stats.forEach(s => {
+                // Draw Label
+                ctx.fillStyle = '#C0C0C0';
+                ctx.font = '10px monospace';
+                ctx.fillText(s.label, x, canvas.height - 10);
+
+                // Draw Bar Background
+                ctx.fillStyle = '#111';
+                ctx.fillRect(x, 10, barWidth, canvas.height - 30);
+
+                // Draw Active Bar
+                const h = (canvas.height - 30) * s.val;
+                ctx.fillStyle = s.label === 'HUMILITY' ? '#333' : '#8B0000';
+                ctx.fillRect(x, canvas.height - 20 - h, barWidth, h);
+
+                x += barWidth + gap;
+            });
+        }
+        
+        drawChart();
+        window.addEventListener('resize', drawChart);
+    </script>
+</body>
+</html>

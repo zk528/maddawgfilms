@@ -3,202 +3,426 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAD DAWG FILMS | Executive Dashboard</title>
+    <title>MAD DAWG FILMS | ENTER THE VOID</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&family=Playfair+Display:ital,wght@0,400;0,900;1,900&display=swap" rel="stylesheet">
+
     <style>
+        /* =========================================
+           1. GLOBAL VARIABLES & THEME CONFIG
+           ========================================= */
         :root {
-            --blood-red: #8B0000;
-            --silver: #C0C0C0;
-            --deep-black: #050505;
-            --sidebar-width: 260px;
+            /* Colors */
+            --color-void: #050505;
+            --color-blood: #8a0303;
+            --color-blood-bright: #ff0000;
+            --color-silver: #C0C0C0;
+            --color-steel: #2a2a2a;
+            --color-white: #ffffff;
+            
+            /* Dimensions */
+            --sidebar-width: 280px;
+            --border-thick: 4px;
+            --border-thin: 1px;
+            
+            /* Typography */
+            --font-head: 'Oswald', sans-serif;
+            --font-body: 'Playfair Display', serif;
+            
+            /* Animation Speeds */
+            --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-glitch: steps(2, end);
         }
 
-        * { box-sizing: border-box; cursor: crosshair; }
+        /* =========================================
+           2. RESET & BASE STYLES
+           ========================================= */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            /* Hide default cursor to use our Bloody Bat */
+            cursor: none; 
+        }
 
         body {
-            background-color: var(--deep-black);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
+            background-color: var(--color-void);
+            color: var(--color-white);
+            font-family: var(--font-body);
+            overflow: hidden; /* Prevent scroll on the Hub */
             height: 100vh;
-            overflow: hidden;
+            width: 100vw;
+            display: flex;
         }
 
-        /* Sidebar Navigation */
-        .sidebar {
+        /* Selection Color */
+        ::selection {
+            background: var(--color-blood);
+            color: var(--color-white);
+        }
+
+        /* =========================================
+           3. THE BLOODY CRICKET BAT CURSOR
+           ========================================= */
+        #cursor-bat {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 64px;
+            height: 64px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            transition: transform 0.1s;
+            mix-blend-mode: exclusion;
+        }
+
+        /* The Blood Drop Particles */
+        .blood-drop {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--color-blood-bright);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            animation: fadeDrop 1s forwards;
+        }
+
+        @keyframes fadeDrop {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0.2) translateY(50px); opacity: 0; }
+        }
+
+        /* =========================================
+           4. LAYOUT: SIDEBAR DASHBOARD
+           ========================================= */
+        .dashboard-sidebar {
             width: var(--sidebar-width);
-            background: #000;
-            border-right: 2px solid var(--blood-red);
+            height: 100vh;
+            background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+            border-right: 1px solid var(--color-steel);
             display: flex;
             flex-direction: column;
-            padding: 20px;
-            box-shadow: 10px 0 20px rgba(139, 0, 0, 0.1);
+            justify-content: space-between;
+            padding: 40px 0;
+            position: relative;
+            z-index: 100;
         }
 
-        .logo-area {
-            padding-bottom: 40px;
+        .dashboard-sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--color-blood), transparent);
+            opacity: 0.5;
+        }
+
+        .brand-block {
+            padding: 0 30px;
             text-align: center;
         }
 
-        .logo-area h1 {
-            font-size: 1.2rem;
-            letter-spacing: 5px;
-            color: var(--silver);
-            text-shadow: 0 0 10px var(--blood-red);
+        .brand-logo {
+            font-family: var(--font-head);
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            color: var(--color-silver);
+            text-transform: uppercase;
+            border: 2px solid var(--color-silver);
+            padding: 10px;
+            display: inline-block;
+            margin-bottom: 10px;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.1);
         }
 
-        .nav-item {
-            padding: 15px;
-            margin: 8px 0;
-            color: var(--silver);
+        .brand-status {
+            font-size: 0.6rem;
+            color: var(--color-blood);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: sans-serif;
+        }
+
+        /* Navigation Links */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 0 20px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #666;
             text-decoration: none;
-            border: 1px solid transparent;
-            transition: 0.3s;
-            font-weight: bold;
-            letter-spacing: 1px;
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            transition: all 0.3s var(--ease-snap);
+            border-left: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--color-blood);
+            transform: translateX(-101%);
+            transition: transform 0.3s var(--ease-snap);
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .nav-link:hover {
+            color: var(--color-white);
+            border-left-color: var(--color-blood);
+            padding-left: 30px;
+            text-shadow: 0 0 8px var(--color-blood);
+        }
+
+        .nav-link:hover::after {
+            transform: translateX(0);
+        }
+
+        /* Footer in Sidebar */
+        .sidebar-footer {
+            padding: 0 30px;
+            font-size: 0.7rem;
+            color: #333;
+            text-align: center;
+            font-family: sans-serif;
+        }
+
+        /* =========================================
+           5. LAYOUT: MAIN STAGE (HERO)
+           ========================================= */
+        .main-stage {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at center, #111 0%, #000 70%);
+            overflow: hidden;
+        }
+
+        /* Background Noise Effect */
+        .noise-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0ibm9uZSIvPjxmaWx0ZXIgaWQ9Im4iPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjY1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Hero Typography */
+        .hero-container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: var(--font-head);
+            font-size: 8rem;
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--color-silver);
+            position: relative;
+            animation: pulseSilver 4s infinite;
+        }
+
+        .hero-title span {
             display: block;
         }
 
-        .nav-item:hover {
-            border-left: 5px solid var(--blood-red);
-            background: rgba(139, 0, 0, 0.1);
-            color: #fff;
-        }
-
-        /* Main Content Area */
-        .main-view {
-            flex: 1;
-            overflow-y: auto;
-            padding: 40px;
-            background: radial-gradient(circle at top right, #1a0000, #050505);
-        }
-
-        .section-header {
-            border-bottom: 1px solid var(--silver);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            color: var(--blood-red);
+        .hero-tagline {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            letter-spacing: 12px;
+            color: var(--color-blood);
             text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-
-        /* Projects Grid */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .project-card {
+            font-weight: bold;
             position: relative;
-            height: 400px;
-            background: #111;
-            border: 1px solid var(--silver);
-            overflow: hidden;
-            transition: transform 0.3s;
         }
 
-        .project-card:hover {
-            transform: scale(1.02);
-            border-color: var(--blood-red);
+        .hero-tagline::before, .hero-tagline::after {
+            content: '';
+            display: inline-block;
+            width: 50px;
+            height: 2px;
+            background: var(--color-blood);
+            vertical-align: middle;
+            margin: 0 20px;
         }
 
-        .project-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%) contrast(120%);
+        /* Glitch Animation Keyframes */
+        @keyframes pulseSilver {
+            0%, 100% { opacity: 0.8; text-shadow: 0 0 0px var(--color-silver); }
+            50% { opacity: 1; text-shadow: 0 0 20px rgba(192,192,192,0.3); }
         }
 
-        .project-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: 0.4s;
-            padding: 20px;
-            text-align: center;
+        /* =========================================
+           6. RESPONSIVE DESIGN
+           ========================================= */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .dashboard-sidebar { width: 100%; height: auto; flex-direction: row; align-items: center; padding: 10px; }
+            .nav-menu { flex-direction: row; display: none; } /* Hide menu on mobile for now */
+            .hero-title { font-size: 4rem; }
         }
 
-        .project-card:hover .project-overlay { opacity: 1; }
-
-        .overlay-data { color: var(--blood-red); font-weight: bold; margin-bottom: 10px; }
-
-        /* Founder Bio Section */
-        .bio-container {
-            max-width: 800px;
-            line-height: 1.8;
-            font-size: 1.1rem;
-            color: #ddd;
-        }
-
-        .bio-para { margin-bottom: 25px; border-left: 2px solid var(--blood-red); padding-left: 20px; }
-
-        h2 { color: var(--silver); }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="logo-area">
-            <h1>MAD DAWG FILMS</h1>
-            <small style="color:var(--blood-red)">INTERNAL SYSTEM v1.0</small>
-        </div>
-        <a href="#dashboard" class="nav-item">DASHBOARD</a>
-        <a href="#projects" class="nav-item">PROJECTS</a>
-        <a href="#about" class="nav-item">ABOUT THE FOUNDER</a>
-        <a href="#" class="nav-item">EQUIPMENT MANIFEST</a>
-        <a href="#" class="nav-item">NDA PORTAL</a>
-        <a href="#" class="nav-item">NASA REJECTION LOGS</a>
-    </div>
+    <svg id="cursor-bat" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="45" y="70" width="10" height="25" fill="#5c4033" stroke="#fff" stroke-width="2"/>
+        <path d="M40 70 L60 70 L60 20 C60 10 40 10 40 20 Z" fill="#C0C0C0" stroke="#fff" stroke-width="2"/>
+        <path d="M42 25 Q45 30 48 22 Q50 35 55 28" stroke="#8a0303" stroke-width="3" opacity="0.8"/>
+        <circle cx="50" cy="40" r="3" fill="#8a0303"/>
+    </svg>
 
-    <div class="main-view">
+    <aside class="dashboard-sidebar">
+        <div class="brand-block">
+            <div class="brand-logo">MAD DAWG</div>
+            <div class="brand-status">System Online</div>
+        </div>
+
+        <nav class="nav-menu">
+            <a href="projects.html" class="nav-link">
+                <span>01. Projects</span>
+            </a>
+            <a href="about.html" class="nav-link">
+                <span>02. About Us</span>
+            </a>
+            <a href="contact.html" class="nav-link">
+                <span>03. Contact</span>
+            </a>
+            <a href="#" class="nav-link" style="color:var(--color-blood)">
+                <span>04. Rejection Logs</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            &copy; 2026 MAD DAWG FILMS<br>
+            ALL RIGHTS RESERVED
+        </div>
+    </aside>
+
+    <main class="main-stage">
+        <div class="noise-overlay"></div>
         
-        <div id="projects">
-            <h2 class="section-header">Active Media Assets</h2>
-            <div class="projects-grid">
-                
-                <div class="project-card" onclick="window.location.href='#';">
-                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800" class="project-image">
-                    <div class="project-overlay">
-                        <h3>RETROGRADE</h3>
-                        <div class="overlay-data">RUNTIME: 14:02</div>
-                        <div class="overlay-data">DIRECTOR: Zarrar Khan</div>
-                        <div class="overlay-data">CAST: [Classified]</div>
-                        <p>A paranormal time-loop murder that redefined modern horror.</p>
-                        <button style="background:var(--blood-red); color:white; border:none; padding:10px 20px;">VIEW CASE FILE</button>
-                    </div>
-                </div>
-
-                <div class="project-card" style="display:flex; align-items:center; justify-content:center; border: 1px dashed var(--blood-red);">
-                    <p style="color:var(--blood-red)">[ REDACTED FUTURE BANGER ]</p>
-                </div>
-
-            </div>
+        <div class="hero-container">
+            <h1 class="hero-title">
+                <span>MAD</span>
+                <span>DAWG</span>
+                <span style="color:var(--color-white); -webkit-text-stroke: 0;">FILMS</span>
+            </h1>
+            <div class="hero-tagline">PRODUCING PURE BANGERS</div>
         </div>
+    </main>
 
-        <br><br><br>
+    <script>
+        /**
+         * MAD DAWG PHYSICS ENGINE v1.0
+         * Handles Cursor Logic, Particles, and Interactions
+         */
 
-        <div id="about">
-            <h2 class="section-header">Founder Profile: Zarrar Khan, PhD</h2>
-            <div class="bio-container">
-                <div class="bio-para">
-                    Born eight months premature in the unforgiving expanse of the Afghan desert, Zarrar Khan did not wait for the world to welcome him; he demanded its submission from the first breath. Left to his own devices in a landscape that would break lesser men, he spent his infancy mastering the primal laws of the hunt, surviving on raw instinct and the game he tracked alone. By age three, having already conquered the desert, he relocated to Karachi, bringing with him a tactical intellect that would see him complete his Bachelors, Masters, and PhD by the age of fifteen—a feat of cognitive dominance that remains biologically unexplained by modern science.
-                </div>
-                <div class="bio-para">
-                    The intellectual elite soon came knocking. NASA operatives, desperate to utilize his neuro-superiority for deep-space navigation and gravitational theory, offered him the stars on a silver platter. Zarrar, however, found their vision narrow. He famously rejected their multiple multi-billion dollar offers, noting that "calculating the trajectory of a rocket is child’s play compared to calculating the trajectory of the human soul on celluloid." To Zarrar, the vacuum of space was empty; the vacuum of a poorly produced film was the true tragedy that needed his divine intervention.
-                </div>
-                <div class="bio-para">
-                    Today, as the visionary force behind Mad Dawg Films, Zarrar Khan stands as the sole arbiter of "Pure Art Bangers." He does not merely produce films; he engineers psychological experiences that loop through the viewer's subconscious like a paranormal glitch. From the haunting corridors of <em>Retrograde</em> to the future masterpieces currently locked in his hyper-active mind, Zarrar remains a man who walked out of the desert to teach the world how to truly see, proving once and for all that while NASA might reach the moon, Mad Dawg Films reaches the infinite.
-                </div>
-            </div>
-        </div>
+        const cursor = document.getElementById('cursor-bat');
+        const body = document.body;
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
 
-    </div>
+        // TRACK MOUSE MOVEMENT
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Generate Blood Drops on fast movement
+            createBloodTrail(e);
+        });
 
+        // SMOOTH CURSOR ANIMATION LOOP
+        function animateCursor() {
+            // Linear interpolation for smooth lag
+            const dt = 0.15;
+            cursorX += (mouseX - cursorX) * dt;
+            cursorY += (mouseY - cursorY) * dt;
+
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+
+            // Dynamic rotation based on movement direction
+            const diffX = mouseX - cursorX;
+            const rotation = -45 + (diffX * 0.5); // Tilt bat when moving
+            cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // BLOOD TRAIL LOGIC
+        let lastDropTime = 0;
+        function createBloodTrail(e) {
+            const now = Date.now();
+            // Limit drop rate
+            if (now - lastDropTime < 50) return; 
+            
+            // Only drop if moving fast
+            const speed = Math.abs(e.movementX) + Math.abs(e.movementY);
+            if (speed < 10) return;
+
+            const drop = document.createElement('div');
+            drop.classList.add('blood-drop');
+            drop.style.left = e.clientX + 'px';
+            drop.style.top = e.clientY + 'px';
+            
+            // Random size variation
+            const size = Math.random() * 6 + 2;
+            drop.style.width = size + 'px';
+            drop.style.height = size + 'px';
+
+            body.appendChild(drop);
+            lastDropTime = now;
+
+            // Cleanup DOM
+            setTimeout(() => {
+                drop.remove();
+            }, 1000);
+        }
+
+        // NAVIGATION HOVER SOUND EFFECTS (Optional, visual feedback included)
+        const links = document.querySelectorAll('.nav-link');
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.style.transform = `translate(-50%, -50%) scale(1.5) rotate(0deg)`;
+            });
+            link.addEventListener('mouseleave', () => {
+                cursor.style.transform = `translate(-50%, -50%) scale(1) rotate(-45deg)`;
+            });
+        });
+
+        // CONSOLE EASTER EGG
+        console.log("%c MAD DAWG FILMS ", "background: #8B0000; color: #fff; font-size: 20px; padding: 10px; border: 2px solid silver;");
+        console.log("System Status: OPERATIONAL");
+        console.log("NASA Rejection Count: OVERFLOW");
+
+    </script>
 </body>
 </html>
