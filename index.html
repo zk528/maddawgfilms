@@ -3,426 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAD DAWG FILMS | ENTER THE VOID</title>
-    
+    <title>MAD DAWG FILMS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&family=Playfair+Display:ital,wght@0,400;0,900;1,900&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&family=Playfair+Display:ital,wght@0,400;0,900;1,900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        /* =========================================
-           1. GLOBAL VARIABLES & THEME CONFIG
-           ========================================= */
         :root {
-            /* Colors */
-            --color-void: #050505;
-            --color-blood: #8a0303;
-            --color-blood-bright: #ff0000;
-            --color-silver: #C0C0C0;
-            --color-steel: #2a2a2a;
-            --color-white: #ffffff;
-            
-            /* Dimensions */
-            --sidebar-width: 280px;
-            --border-thick: 4px;
-            --border-thin: 1px;
-            
-            /* Typography */
-            --font-head: 'Oswald', sans-serif;
-            --font-body: 'Playfair Display', serif;
-            
-            /* Animation Speeds */
-            --ease-snap: cubic-bezier(0.16, 1, 0.3, 1);
-            --ease-glitch: steps(2, end);
+            --void: #050505;
+            --blood: #8a0303;
+            --blood-bright: #c41010;
+            --silver: #C0C0C0;
+            --steel: #1a1a1a;
+            --sidebar-w: 260px;
+            --f-head: 'Oswald', sans-serif;
+            --f-body: 'Playfair Display', serif;
+            --f-tech: 'Share Tech Mono', monospace;
         }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; cursor: none; }
+        body { background: var(--void); color: #fff; font-family: var(--f-body); overflow: hidden; height: 100vh; display: flex; }
+        ::selection { background: var(--blood); color: #fff; }
 
-        /* =========================================
-           2. RESET & BASE STYLES
-           ========================================= */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            /* Hide default cursor to use our Bloody Bat */
-            cursor: none; 
+        /* CURSOR */
+        #cursor-bat { position: fixed; top: 0; left: 0; width: 64px; height: 64px; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%) rotate(-45deg); mix-blend-mode: exclusion; }
+        .blood-drop { position: fixed; background: var(--blood-bright); border-radius: 50%; pointer-events: none; z-index: 9998; animation: dropFade 0.8s forwards; }
+        @keyframes dropFade { 0%{transform:scale(1);opacity:.8} 100%{transform:scale(.1) translateY(40px);opacity:0} }
+
+        /* SIDEBAR */
+        .sidebar { width: var(--sidebar-w); height: 100vh; background: #000; border-right: 1px solid var(--steel); display: flex; flex-direction: column; justify-content: space-between; padding: 40px 0; position: relative; z-index: 100; flex-shrink: 0; }
+        .sidebar::after { content:''; position:absolute; top:0; right:0; bottom:0; width:1px; background:linear-gradient(to bottom,transparent,var(--blood),transparent); opacity:.35; }
+        .brand { text-align: center; margin-bottom: 50px; }
+        .brand-logo { font-family: var(--f-head); font-size: 1.4rem; letter-spacing: 5px; color: var(--silver); border: 2px solid var(--silver); padding: 10px 14px; display: inline-block; }
+        .nav { display: flex; flex-direction: column; gap: 4px; }
+        .nav a { display:block; padding:14px 28px; color:#555; text-decoration:none; font-family:var(--f-head); text-transform:uppercase; letter-spacing:2px; font-size:.9rem; border-left:2px solid transparent; transition:all .3s; }
+        .nav a:hover, .nav a.active { color:#fff; border-left-color:var(--blood); padding-left:36px; background:linear-gradient(90deg,rgba(138,3,3,.08),transparent); }
+        .sidebar-foot { text-align:center; font-size:.65rem; color:#333; font-family:var(--f-tech); }
+
+        /* MAIN */
+        .main { flex:1; position:relative; display:flex; justify-content:center; align-items:center; background:radial-gradient(ellipse at 60% 40%,#110000 0%,#000 70%); overflow:hidden; }
+        .grain { position:absolute; inset:0; background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC42NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuMDUiLz48L3N2Zz4='); opacity:.07; pointer-events:none; }
+        .deco { position:absolute; background:var(--blood); opacity:.05; }
+        .deco.h { width:100%; height:1px; }
+        .deco.v { width:1px; height:100%; }
+
+        .hero { text-align:center; z-index:10; }
+        .hero-title { font-family:var(--f-head); font-size:clamp(5rem,12vw,9rem); line-height:.88; text-transform:uppercase; color:transparent; -webkit-text-stroke:2px var(--silver); animation:breathe 5s ease-in-out infinite; }
+        .hero-title .films { display:block; color:#fff; -webkit-text-stroke:0; font-weight:200; font-size:.45em; letter-spacing:.35em; margin-top:8px; }
+        .tagline { margin-top:28px; font-family:var(--f-tech); font-size:.8rem; letter-spacing:5px; color:var(--blood); text-transform:uppercase; }
+        .tagline::before, .tagline::after { content:''; display:inline-block; width:35px; height:1px; background:var(--blood); vertical-align:middle; margin:0 14px; }
+
+        @keyframes breathe { 0%,100%{opacity:.85} 50%{opacity:1;text-shadow:0 0 30px rgba(192,192,192,.12)} }
+
+        @media(max-width:768px){
+            body{flex-direction:column}
+            .sidebar{width:100%;height:auto;flex-direction:row;align-items:center;padding:12px 20px;justify-content:space-between}
+            .brand{margin-bottom:0}
+            .nav{flex-direction:row;gap:0}
+            .nav a{padding:8px 12px;font-size:.7rem;border-left:none;border-bottom:2px solid transparent}
+            .nav a:hover,.nav a.active{padding-left:12px;border-bottom-color:var(--blood);border-left-color:transparent}
+            .sidebar-foot{display:none}
         }
-
-        body {
-            background-color: var(--color-void);
-            color: var(--color-white);
-            font-family: var(--font-body);
-            overflow: hidden; /* Prevent scroll on the Hub */
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-        }
-
-        /* Selection Color */
-        ::selection {
-            background: var(--color-blood);
-            color: var(--color-white);
-        }
-
-        /* =========================================
-           3. THE BLOODY CRICKET BAT CURSOR
-           ========================================= */
-        #cursor-bat {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 64px;
-            height: 64px;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            transition: transform 0.1s;
-            mix-blend-mode: exclusion;
-        }
-
-        /* The Blood Drop Particles */
-        .blood-drop {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--color-blood-bright);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            animation: fadeDrop 1s forwards;
-        }
-
-        @keyframes fadeDrop {
-            0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(0.2) translateY(50px); opacity: 0; }
-        }
-
-        /* =========================================
-           4. LAYOUT: SIDEBAR DASHBOARD
-           ========================================= */
-        .dashboard-sidebar {
-            width: var(--sidebar-width);
-            height: 100vh;
-            background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
-            border-right: 1px solid var(--color-steel);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 40px 0;
-            position: relative;
-            z-index: 100;
-        }
-
-        .dashboard-sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, var(--color-blood), transparent);
-            opacity: 0.5;
-        }
-
-        .brand-block {
-            padding: 0 30px;
-            text-align: center;
-        }
-
-        .brand-logo {
-            font-family: var(--font-head);
-            font-size: 1.5rem;
-            letter-spacing: 4px;
-            color: var(--color-silver);
-            text-transform: uppercase;
-            border: 2px solid var(--color-silver);
-            padding: 10px;
-            display: inline-block;
-            margin-bottom: 10px;
-            box-shadow: 0 0 15px rgba(192, 192, 192, 0.1);
-        }
-
-        .brand-status {
-            font-size: 0.6rem;
-            color: var(--color-blood);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-family: sans-serif;
-        }
-
-        /* Navigation Links */
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 0 20px;
-        }
-
-        .nav-link {
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            color: #666;
-            text-decoration: none;
-            font-family: var(--font-head);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1rem;
-            transition: all 0.3s var(--ease-snap);
-            border-left: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: var(--color-blood);
-            transform: translateX(-101%);
-            transition: transform 0.3s var(--ease-snap);
-            z-index: -1;
-            opacity: 0.1;
-        }
-
-        .nav-link:hover {
-            color: var(--color-white);
-            border-left-color: var(--color-blood);
-            padding-left: 30px;
-            text-shadow: 0 0 8px var(--color-blood);
-        }
-
-        .nav-link:hover::after {
-            transform: translateX(0);
-        }
-
-        /* Footer in Sidebar */
-        .sidebar-footer {
-            padding: 0 30px;
-            font-size: 0.7rem;
-            color: #333;
-            text-align: center;
-            font-family: sans-serif;
-        }
-
-        /* =========================================
-           5. LAYOUT: MAIN STAGE (HERO)
-           ========================================= */
-        .main-stage {
-            flex-grow: 1;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle at center, #111 0%, #000 70%);
-            overflow: hidden;
-        }
-
-        /* Background Noise Effect */
-        .noise-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0ibm9uZSIvPjxmaWx0ZXIgaWQ9Im4iPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjY1IiBudW1PY3RhdmVzPSIzIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9InRyYW5zcGFyZW50Ii8+PC9zdmc+');
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Hero Typography */
-        .hero-container {
-            text-align: center;
-            z-index: 10;
-            position: relative;
-        }
-
-        .hero-title {
-            font-family: var(--font-head);
-            font-size: 8rem;
-            line-height: 0.9;
-            text-transform: uppercase;
-            color: transparent;
-            -webkit-text-stroke: 2px var(--color-silver);
-            position: relative;
-            animation: pulseSilver 4s infinite;
-        }
-
-        .hero-title span {
-            display: block;
-        }
-
-        .hero-tagline {
-            margin-top: 30px;
-            font-size: 1.5rem;
-            letter-spacing: 12px;
-            color: var(--color-blood);
-            text-transform: uppercase;
-            font-weight: bold;
-            position: relative;
-        }
-
-        .hero-tagline::before, .hero-tagline::after {
-            content: '';
-            display: inline-block;
-            width: 50px;
-            height: 2px;
-            background: var(--color-blood);
-            vertical-align: middle;
-            margin: 0 20px;
-        }
-
-        /* Glitch Animation Keyframes */
-        @keyframes pulseSilver {
-            0%, 100% { opacity: 0.8; text-shadow: 0 0 0px var(--color-silver); }
-            50% { opacity: 1; text-shadow: 0 0 20px rgba(192,192,192,0.3); }
-        }
-
-        /* =========================================
-           6. RESPONSIVE DESIGN
-           ========================================= */
-        @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .dashboard-sidebar { width: 100%; height: auto; flex-direction: row; align-items: center; padding: 10px; }
-            .nav-menu { flex-direction: row; display: none; } /* Hide menu on mobile for now */
-            .hero-title { font-size: 4rem; }
-        }
-
     </style>
 </head>
 <body>
-
-    <svg id="cursor-bat" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="45" y="70" width="10" height="25" fill="#5c4033" stroke="#fff" stroke-width="2"/>
-        <path d="M40 70 L60 70 L60 20 C60 10 40 10 40 20 Z" fill="#C0C0C0" stroke="#fff" stroke-width="2"/>
+    <svg id="cursor-bat" viewBox="0 0 100 100" fill="none">
+        <rect x="45" y="70" width="10" height="25" fill="#5c4033" stroke="#fff" stroke-width="1.5"/>
+        <path d="M40 70 L60 70 L60 20 C60 10 40 10 40 20 Z" fill="#C0C0C0" stroke="#fff" stroke-width="1.5"/>
         <path d="M42 25 Q45 30 48 22 Q50 35 55 28" stroke="#8a0303" stroke-width="3" opacity="0.8"/>
-        <circle cx="50" cy="40" r="3" fill="#8a0303"/>
+        <circle cx="50" cy="40" r="2.5" fill="#8a0303"/>
     </svg>
 
-    <aside class="dashboard-sidebar">
-        <div class="brand-block">
-            <div class="brand-logo">MAD DAWG</div>
-            <div class="brand-status">System Online</div>
+    <aside class="sidebar">
+        <div>
+            <div class="brand"><div class="brand-logo">MAD DAWG</div></div>
+            <nav class="nav">
+                <a href="index.html" class="active">Home</a>
+                <a href="projects.html">Projects</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
         </div>
-
-        <nav class="nav-menu">
-            <a href="projects.html" class="nav-link">
-                <span>01. Projects</span>
-            </a>
-            <a href="about.html" class="nav-link">
-                <span>02. About Us</span>
-            </a>
-            <a href="contact.html" class="nav-link">
-                <span>03. Contact</span>
-            </a>
-            <a href="#" class="nav-link" style="color:var(--color-blood)">
-                <span>04. Rejection Logs</span>
-            </a>
-        </nav>
-
-        <div class="sidebar-footer">
-            &copy; 2026 MAD DAWG FILMS<br>
-            ALL RIGHTS RESERVED
-        </div>
+        <div class="sidebar-foot">&copy; 2026 MAD DAWG FILMS</div>
     </aside>
 
-    <main class="main-stage">
-        <div class="noise-overlay"></div>
-        
-        <div class="hero-container">
-            <h1 class="hero-title">
-                <span>MAD</span>
-                <span>DAWG</span>
-                <span style="color:var(--color-white); -webkit-text-stroke: 0;">FILMS</span>
-            </h1>
-            <div class="hero-tagline">PRODUCING PURE BANGERS</div>
+    <main class="main">
+        <div class="grain"></div>
+        <div class="deco h" style="top:28%"></div>
+        <div class="deco h" style="top:72%"></div>
+        <div class="deco v" style="left:22%"></div>
+        <div class="deco v" style="right:22%"></div>
+        <div class="hero">
+            <h1 class="hero-title">MAD<br>DAWG<span class="films">FILMS</span></h1>
+            <p class="tagline">Pure Bangers Only</p>
         </div>
     </main>
 
     <script>
-        /**
-         * MAD DAWG PHYSICS ENGINE v1.0
-         * Handles Cursor Logic, Particles, and Interactions
-         */
-
         const cursor = document.getElementById('cursor-bat');
-        const body = document.body;
-        
-        let mouseX = 0;
-        let mouseY = 0;
-        let cursorX = 0;
-        let cursorY = 0;
-
-        // TRACK MOUSE MOVEMENT
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            // Generate Blood Drops on fast movement
-            createBloodTrail(e);
+        let mx=0,my=0,cx=0,cy=0,lastDrop=0;
+        document.addEventListener('mousemove',e=>{
+            mx=e.clientX; my=e.clientY;
+            const now=Date.now(), spd=Math.abs(e.movementX)+Math.abs(e.movementY);
+            if(spd>12&&now-lastDrop>60){
+                const d=document.createElement('div'); d.className='blood-drop';
+                const s=Math.random()*5+2;
+                Object.assign(d.style,{left:e.clientX+'px',top:e.clientY+'px',width:s+'px',height:s+'px'});
+                document.body.appendChild(d); lastDrop=now;
+                setTimeout(()=>d.remove(),800);
+            }
         });
-
-        // SMOOTH CURSOR ANIMATION LOOP
-        function animateCursor() {
-            // Linear interpolation for smooth lag
-            const dt = 0.15;
-            cursorX += (mouseX - cursorX) * dt;
-            cursorY += (mouseY - cursorY) * dt;
-
-            cursor.style.left = cursorX + 'px';
-            cursor.style.top = cursorY + 'px';
-
-            // Dynamic rotation based on movement direction
-            const diffX = mouseX - cursorX;
-            const rotation = -45 + (diffX * 0.5); // Tilt bat when moving
-            cursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
-
-        // BLOOD TRAIL LOGIC
-        let lastDropTime = 0;
-        function createBloodTrail(e) {
-            const now = Date.now();
-            // Limit drop rate
-            if (now - lastDropTime < 50) return; 
-            
-            // Only drop if moving fast
-            const speed = Math.abs(e.movementX) + Math.abs(e.movementY);
-            if (speed < 10) return;
-
-            const drop = document.createElement('div');
-            drop.classList.add('blood-drop');
-            drop.style.left = e.clientX + 'px';
-            drop.style.top = e.clientY + 'px';
-            
-            // Random size variation
-            const size = Math.random() * 6 + 2;
-            drop.style.width = size + 'px';
-            drop.style.height = size + 'px';
-
-            body.appendChild(drop);
-            lastDropTime = now;
-
-            // Cleanup DOM
-            setTimeout(() => {
-                drop.remove();
-            }, 1000);
-        }
-
-        // NAVIGATION HOVER SOUND EFFECTS (Optional, visual feedback included)
-        const links = document.querySelectorAll('.nav-link');
-        links.forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                cursor.style.transform = `translate(-50%, -50%) scale(1.5) rotate(0deg)`;
-            });
-            link.addEventListener('mouseleave', () => {
-                cursor.style.transform = `translate(-50%, -50%) scale(1) rotate(-45deg)`;
-            });
-        });
-
-        // CONSOLE EASTER EGG
-        console.log("%c MAD DAWG FILMS ", "background: #8B0000; color: #fff; font-size: 20px; padding: 10px; border: 2px solid silver;");
-        console.log("System Status: OPERATIONAL");
-        console.log("NASA Rejection Count: OVERFLOW");
-
+        (function anim(){
+            cx+=(mx-cx)*.14; cy+=(my-cy)*.14;
+            cursor.style.left=cx+'px'; cursor.style.top=cy+'px';
+            cursor.style.transform=`translate(-50%,-50%) rotate(${-45+(mx-cx)*.4}deg)`;
+            requestAnimationFrame(anim);
+        })();
     </script>
 </body>
 </html>

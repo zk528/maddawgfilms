@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAD DAWG FILMS | About</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;400;700&family=Playfair+Display:ital,wght@0,400;0,900;1,900&family=Share+Tech+Mono&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void:#050505; --blood:#8a0303; --blood-bright:#c41010; --silver:#C0C0C0; --steel:#1a1a1a;
+            --sidebar-w:260px; --f-head:'Oswald',sans-serif; --f-body:'Playfair Display',serif; --f-tech:'Share Tech Mono',monospace; --f-display:'Cinzel',serif;
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;cursor:none}
+        body{background:var(--void);color:#fff;font-family:var(--f-body);overflow:hidden;height:100vh;display:flex}
+        ::selection{background:var(--blood);color:#fff}
+
+        #cursor-bat{position:fixed;top:0;left:0;width:64px;height:64px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%) rotate(-45deg);mix-blend-mode:exclusion}
+        .blood-drop{position:fixed;background:var(--blood-bright);border-radius:50%;pointer-events:none;z-index:9998;animation:dropFade .8s forwards}
+        @keyframes dropFade{0%{transform:scale(1);opacity:.8}100%{transform:scale(.1) translateY(40px);opacity:0}}
+
+        .sidebar{width:var(--sidebar-w);height:100vh;background:#000;border-right:1px solid var(--steel);display:flex;flex-direction:column;justify-content:space-between;padding:40px 0;position:relative;z-index:100;flex-shrink:0}
+        .sidebar::after{content:'';position:absolute;top:0;right:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--blood),transparent);opacity:.35}
+        .brand{text-align:center;margin-bottom:50px}
+        .brand-logo{font-family:var(--f-head);font-size:1.4rem;letter-spacing:5px;color:var(--silver);border:2px solid var(--silver);padding:10px 14px;display:inline-block}
+        .nav{display:flex;flex-direction:column;gap:4px}
+        .nav a{display:block;padding:14px 28px;color:#555;text-decoration:none;font-family:var(--f-head);text-transform:uppercase;letter-spacing:2px;font-size:.9rem;border-left:2px solid transparent;transition:all .3s}
+        .nav a:hover,.nav a.active{color:#fff;border-left-color:var(--blood);padding-left:36px;background:linear-gradient(90deg,rgba(138,3,3,.08),transparent)}
+        .sidebar-foot{text-align:center;font-size:.65rem;color:#333;font-family:var(--f-tech)}
+
+        /* MAIN */
+        .main{flex:1;overflow-y:auto;padding:50px 60px;background:linear-gradient(to bottom,#080808,#000)}
+        .main::-webkit-scrollbar{width:6px}
+        .main::-webkit-scrollbar-track{background:#000}
+        .main::-webkit-scrollbar-thumb{background:var(--blood);border-radius:3px}
+
+        .page-title{font-family:var(--f-head);font-size:2.8rem;color:var(--silver);text-transform:uppercase;letter-spacing:4px;border-bottom:1px solid #222;padding-bottom:20px;margin-bottom:50px}
+
+        /* FOUNDER SECTION */
+        .founder{display:grid;grid-template-columns:1fr 1.4fr;gap:50px;margin-bottom:80px;align-items:start}
+        .founder-img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(100%) contrast(110%);border:1px solid #222;transition:filter .5s}
+        .founder-img:hover{filter:grayscale(40%) contrast(105%)}
+
+        .founder-info h2{font-family:var(--f-display);font-size:2.8rem;color:var(--silver);text-transform:uppercase;line-height:.95;margin-bottom:6px}
+        .founder-role{font-family:var(--f-head);color:var(--blood);font-size:1rem;letter-spacing:4px;margin-bottom:28px;display:block}
+        .founder-bio{font-size:1.05rem;line-height:1.85;color:#aaa;max-width:680px}
+        .founder-bio p{margin-bottom:20px}
+        .founder-bio strong{color:#ddd}
+
+        /* DIVIDER */
+        .divider{border:none;border-top:1px solid #1a1a1a;margin:0 0 50px}
+
+        /* TEAM */
+        .section-label{font-family:var(--f-head);font-size:1.8rem;color:var(--silver);text-transform:uppercase;letter-spacing:3px;margin-bottom:30px}
+
+        .team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px;margin-bottom:60px}
+
+        .member{background:#080808;border:1px solid #1a1a1a;overflow:hidden;transition:border-color .3s}
+        .member:hover{border-color:#333}
+        .member-img{height:200px;width:100%;overflow:hidden;background:#0a0a0a;display:flex;align-items:center;justify-content:center}
+        .member-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%)}
+        .member-info{padding:16px}
+        .member-name{font-family:var(--f-head);font-size:1.15rem;color:#fff;margin-bottom:2px}
+        .member-role{font-family:var(--f-tech);font-size:.75rem;color:#555;text-transform:uppercase}
+
+        .anon-icon{font-size:2.5rem;color:#222}
+
+        /* QUOTE */
+        .pull-quote{border-left:3px solid var(--blood);padding:20px 30px;margin:40px 0;font-style:italic;color:#777;font-size:1.1rem;line-height:1.7;max-width:600px}
+        .pull-quote cite{display:block;margin-top:10px;font-style:normal;font-family:var(--f-tech);font-size:.75rem;color:var(--blood)}
+
+        @media(max-width:900px){
+            .founder{grid-template-columns:1fr;gap:30px}
+        }
+        @media(max-width:768px){
+            body{flex-direction:column}
+            .sidebar{width:100%;height:auto;flex-direction:row;align-items:center;padding:12px 20px;justify-content:space-between}
+            .brand{margin-bottom:0}
+            .nav{flex-direction:row;gap:0}
+            .nav a{padding:8px 12px;font-size:.7rem;border-left:none}
+            .sidebar-foot{display:none}
+            .main{padding:30px 24px}
+        }
+    </style>
+</head>
+<body>
+    <svg id="cursor-bat" viewBox="0 0 100 100" fill="none">
+        <rect x="45" y="70" width="10" height="25" fill="#5c4033" stroke="#fff" stroke-width="1.5"/>
+        <path d="M40 70 L60 70 L60 20 C60 10 40 10 40 20 Z" fill="#C0C0C0" stroke="#fff" stroke-width="1.5"/>
+        <path d="M42 25 Q45 30 48 22 Q50 35 55 28" stroke="#8a0303" stroke-width="3" opacity="0.8"/>
+        <circle cx="50" cy="40" r="2.5" fill="#8a0303"/>
+    </svg>
+
+    <aside class="sidebar">
+        <div>
+            <div class="brand"><div class="brand-logo">MAD DAWG</div></div>
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="projects.html">Projects</a>
+                <a href="about.html" class="active">About</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+        <div class="sidebar-foot">&copy; 2026 MAD DAWG FILMS</div>
+    </aside>
+
+    <main class="main">
+        <h1 class="page-title">About</h1>
+
+        <!-- FOUNDER -->
+        <section class="founder">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=800&q=80" class="founder-img" alt="Zarrar Khan">
+            <div class="founder-info">
+                <h2>Zarrar Khan</h2>
+                <span class="founder-role">Founder &amp; Director</span>
+                <div class="founder-bio">
+                    <p>Born in circumstances that medical science still can't fully explain, Zarrar emerged into the world with an innate understanding that cinema was the highest form of human expression &mdash; and that he was born to master it.</p>
+                    <p>After completing an education at a pace that made his professors deeply uncomfortable, he turned down a series of increasingly absurd career offers to pursue the only thing that truly mattered: <strong>making films that go unreasonably hard.</strong></p>
+                    <p>Mad Dawg Films was founded on the belief that the world has enough safe, forgettable content. Every project is designed to leave a mark &mdash; whether the audience asked for it or not.</p>
+                </div>
+
+                <blockquote class="pull-quote">
+                    "Calculating the trajectory of a rocket is child's play compared to calculating the trajectory of the human soul on celluloid."
+                    <cite>&mdash; Zarrar Khan, when asked why he didn't pursue aerospace</cite>
+                </blockquote>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- TEAM -->
+        <h2 class="section-label">The Team</h2>
+
+        <div class="team-grid">
+            <div class="member">
+                <div class="member-img">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80" alt="Zarrar Khan">
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Zarrar Khan</div>
+                    <div class="member-role">Director / Visionary / HR Department</div>
+                </div>
+            </div>
+
+            <div class="member">
+                <div class="member-img">
+                    <div class="anon-icon">&#9632;</div>
+                </div>
+                <div class="member-info">
+                    <div class="member-name" style="color:#444">Name Withheld</div>
+                    <div class="member-role">Cinematography</div>
+                </div>
+            </div>
+
+            <div class="member">
+                <div class="member-img">
+                    <div class="anon-icon">&#9632;</div>
+                </div>
+                <div class="member-info">
+                    <div class="member-name" style="color:#444">Name Withheld</div>
+                    <div class="member-role">Sound &amp; Audio</div>
+                </div>
+            </div>
+
+            <div class="member">
+                <div class="member-img">
+                    <div class="anon-icon">&#9632;</div>
+                </div>
+                <div class="member-info">
+                    <div class="member-name" style="color:#444">Recruiting</div>
+                    <div class="member-role">This could be you (probably not)</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const cursor=document.getElementById('cursor-bat');
+        let mx=0,my=0,cx=0,cy=0,lastDrop=0;
+        document.addEventListener('mousemove',e=>{
+            mx=e.clientX;my=e.clientY;
+            const now=Date.now(),spd=Math.abs(e.movementX)+Math.abs(e.movementY);
+            if(spd>12&&now-lastDrop>60){
+                const d=document.createElement('div');d.className='blood-drop';
+                const s=Math.random()*5+2;
+                Object.assign(d.style,{left:e.clientX+'px',top:e.clientY+'px',width:s+'px',height:s+'px'});
+                document.body.appendChild(d);lastDrop=now;setTimeout(()=>d.remove(),800);
+            }
+        });
+        (function anim(){
+            cx+=(mx-cx)*.14;cy+=(my-cy)*.14;
+            cursor.style.left=cx+'px';cursor.style.top=cy+'px';
+            cursor.style.transform=`translate(-50%,-50%) rotate(${-45+(mx-cx)*.4}deg)`;
+            requestAnimationFrame(anim);
+        })();
+    </script>
+</body>
+</html>
